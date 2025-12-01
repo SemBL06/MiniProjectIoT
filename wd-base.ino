@@ -55,20 +55,15 @@ enum COMMANDS {
 };
 
 const char* directionNames[] = {
-  "LEFT_TURN_FORWARD",      // 0
-  "FORWARD",                // 1
-  "RIGHT_TURN_FORWARD",     // ... 
-  "RIGHT",
-  "RIGHT_TURN_BACKWARDS",
-  "BACKWARDS",
-  "LEFT_TURN_BACKWARDS",
+  "LEFT_TURN_FORWARD",  //0
+  "FORWARD",            //1
+  "RIGHT_TURN_FORWARD",
   "LEFT",
   "STOP",
-  "BARRIER_ONE_UP",
-  "BARRIER_ONE_DOWN",
-  "PRIOR_VEHICLE",
-  "BARRIER_TWO_UP",
-  "BARRIER_TWO_DOWN", 
+  "RIGHT",
+  "LEFT_TURN_BACKWARDS",
+  "BACKWARDS",
+  "RIGHT_TURN_BACKWARDS",
 };
 
 enum MOTOR_DIRECTION {
@@ -146,7 +141,7 @@ void callback(char* topic, byte* message, unsigned int length) {
 void handle_movement_command(const char* msg) {
   static int lastCommand = -1;
   int command = atoi(msg);
-      lcd.clear();
+    lcd.clear();
     Serial.print("Command: ");
     Serial.println(command);
     lcd.print(directionNames[command]);
@@ -197,7 +192,9 @@ void setup() {
   Serial.begin(115200);
   for (int i = 0; i < MOTOR_PIN_COUNT; i++) {
     pinMode(MOTOR_PINS[i], OUTPUT);
+    ledcAttach(MOTOR_PINS[i], PWM_FREQUENCY, PWM_RESOLUTION);  // Attach pin to channel i
   }
+
   for (int i = 0; i < LED_COUNT; i++) {
     pinMode(LED_PINS[i], OUTPUT);
   }
