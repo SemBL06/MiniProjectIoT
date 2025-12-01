@@ -1,3 +1,10 @@
+//S168772 Dries Van Bouwel
+//S171282 Lukas Van Dyck
+//S173062 Karol Czaplejewicz
+//S166965 Sem Block
+
+
+
 // Necessary Libraries
 #include <LiquidCrystal_I2C.h>  // https://github.com/johnrickman/LiquidCrystal_I2C (install as zip)
 #include <WiFi.h>               // Standard ESP32 Library
@@ -145,6 +152,10 @@ void handle_movement_command(const char* msg) {
     Serial.print("Command: ");
     Serial.println(command);
     lcd.print(directionNames[command]);
+    lcd.setCursor(0,1);
+
+    lcd.print("Speed: " + String(drivingSpeed));
+    lcd.setCursor(0,0);
   if (command != lastCommand) {
     switch (command) {
       case LEFT_TURN_FORWARD:
